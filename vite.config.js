@@ -11,7 +11,11 @@ const APP_VERSION = "4";
 
 export default defineConfig(({ mode }) => {
     const isDev = mode === "development";
-    const base = process.env.VITE_BASE_NETLIFY || (isDev ? "/" : "/cuttherope-h5dx");
+    
+    // ĐÃ SỬA: Thiết lập Base Path thành /cuttherope/ cho GitHub Pages (trừ khi là Netlify hoặc Dev mode)
+    // Tên repository của bạn là 'cuttherope', nên Base Path phải là '/cuttherope/'
+    const base = process.env.VITE_BASE_NETLIFY || (isDev ? "/" : "/cuttherope/"); 
+    
     const enablePWA = !process.env.VITE_BASE_NETLIFY;
 
     return {
