@@ -80,6 +80,8 @@ To test the game locally during the development process, follow these steps:
     npm run dev
     ```
 
+    
+
 5. Open your web browser and navigate the address in the terminal to play the game locally.  
    The default address is usually `http://localhost:5173/`.
 
