@@ -11,7 +11,7 @@ const APP_VERSION = "7";
 
 export default defineConfig(({ mode }) => {
     const isDev = mode === "development";
-    const base = process.env.VITE_BASE_NETLIFY || (isDev ? "/" : "/cuttherope-h5dx");
+    const base = process.env.VITE_BASE_NETLIFY || (isDev ? "/" : "/cuttherope");
     const enablePWA = !process.env.VITE_BASE_NETLIFY;
 
     return {
