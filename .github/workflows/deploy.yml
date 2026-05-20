@@ -1,0 +1,54 @@
+name: Deploy Vite site to Pages
+
+on:
+  # Tự động chạy mỗi khi bạn push code mới lên nhánh main (hoặc master)
+  push:
+    branches: ["main"] # Nếu bạn dùng nhánh tên 'master' thì sửa chữ 'main' thành 'master'
+
+  # Cho phép bạn bấm nút chạy thủ công bằng tay trong tab Actions nếu muốn
+  workflow_dispatch:
+
+# Thiết lập quyền hạn cho GITHUB_TOKEN để có thể deploy lên GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Hủy các lượt build cũ đang chạy dở nếu bạn push liên tục để tránh tốn tài nguyên
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps: deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout mã nguồn
+        uses: actions/checkout@v4
+
+      - name: Cài đặt Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Cài đặt các gói phụ thuộc (Dependencies)
+        run: npm ci
+
+      - name: Biên dịch và Đóng gói (Build dự án)
+        run: npm run build
+
+      - name: Định hình cấu hình GitHub Pages
+        uses: actions/configure-pages@v4
+
+      - name: Tải thư mục kết quả lên hệ thống (Vite mặc định xuất ra thư mục dist)
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+
+      - name: Tiến hành Deploy lên GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
